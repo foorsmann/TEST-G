@@ -387,17 +387,21 @@ function setVideoBlock(refs,url){
   }
 }
 function applyNoImageState(refs,on){
-  if(!refs.optWrap || !refs.qEl) return;
+  // ne limităm la wrapperul curent, NU la .questions-collection-list-item
+  const target = refs.qWrap || refs.root;
+  if(!refs.optWrap || !target) return;
+
   if(on){
-    refs.qEl.classList.add("no-image");
+    target.classList.add("no-image");
     refs.optWrap.style.minHeight="40vh";
     if(refs.imgWrap) refs.imgWrap.style.display="none";
   }else{
-    refs.qEl.classList.remove("no-image");
+    target.classList.remove("no-image");
     refs.optWrap.style.minHeight="";
     if(refs.imgWrap) refs.imgWrap.style.display="";
   }
 }
+
 function ensureImageReadyFromQ(q){
   if(!q||!q.Image) return Promise.resolve();
   if(q.__imgReady&&typeof q.__imgReady.then==="function") return q.__imgReady;
@@ -841,3 +845,4 @@ Webflow.push(async function(){
   if(typeof FIN!=="undefined" && FIN){ await showFinal(); }
 });
 });
+
